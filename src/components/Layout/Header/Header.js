@@ -5,13 +5,14 @@ import style from "./Header.module.css";
 
 //* Import Image
 import mealImage from "../../../assets/meals.jpg";
+import HeaderCartButton from "./HeaderCartButton";
 
 function Header() {
 	return (
 		<>
 			<header className={style.header}>
 				<h1>Food Order</h1>
-				<button>Cart</button>
+				<HeaderCartButton />
 			</header>
 			<div>
 				<img
