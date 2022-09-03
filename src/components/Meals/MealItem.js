@@ -1,5 +1,8 @@
 import React from "react";
 
+//* Import Components
+import MealForm from "./MealForm";
+
 //* Import CSS
 import style from "./MealItem.module.css";
 
@@ -12,7 +15,7 @@ export default function MealItem(props) {
 				<span className={style.price}>${props.price.toFixed(2)}</span>
 			</div>
 			<div>
-				<button>Add</button>
+				<MealForm />
 			</div>
 		</li>
 	);

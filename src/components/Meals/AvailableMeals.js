@@ -2,11 +2,13 @@ import React from "react";
 
 //* Import Data
 import DUMMY_MEALS from "../../assets/data.js";
+
+//* Import Component
 import Card from "../UI/Card.js";
+import MealItem from "./MealItem.js";
 
 //* Import CSS
 import style from "./AvailableMeals.module.css";
-import MealItem from "./MealItem.js";
 
 function AvailableMeals() {
 	const mealsList = DUMMY_MEALS.map((meal) => (
