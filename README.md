@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Users App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Udemy React Complete Guide
 
-## Available Scripts
+## Components
 
-In the project directory, you can run:
+```javascript
+<AddUser onAddUser={addUserHandler} />
+<UsersList users={users} />
+```
 
-### `npm start`
+**React** is basically a component-based Javascript framework that makes it easier for developers to break the interface into parts. There are 2 main components that I made in this application. The `AddUser` component is a form component that is intended for **User** to add a new **User**. While the `UsersList` component is intended to display **Users** that have been created in the form of a list.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Props
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```javascript
+const UsersList = (props) => {
+	return (
+		<Card className={style.users}>
+			<ul>
+				{props.users.map((user) => {
+					return (
+						<li key={user.id}>
+							{user.name} ({user.age} Years Old)
+						</li>
+					);
+				})}
+			</ul>
+		</Card>
+	);
+};
+```
 
-### `npm test`
+Props are used to provide input to components. For example, the `UsersList` component will receive **props** _users_ yang diharapkan berbentuk array sehingga dapat dimapping untuk mengembalikan elemen html berupa list.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## State
 
-### `npm run build`
+```javascript
+import { useState } from "react";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const [username, setUsername] = useState("");
+const [age, setAge] = useState("");
+const [error, setError] = useState(null);
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Another thing I've learned in this React course is `State`. `State` is an object to store data in React and will be rendered or reloaded when the data changes. For example, in this application there are `state` _name_ and _age_ in the `AddUser` component which will reload the input elements on the form when there is a change in the value of the `state`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Fragment
 
-### `npm run eject`
+React cannot return more than 1 element but each element must be in 1 element root. This can be a problem known as `div soup`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```html
+<div>
+	<div>
+		<div>
+			<h1>This is div Soup</h1>
+		</div>
+	</div>
+</div>
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Developers can work around this by using a React Fragment as their root element. One example is found in the `App` Component which uses `<React.Fragment></React.Fragment>` as a wrapper element for the component it contains.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Portal
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```javascript
+const ErrorModal = (props) => {
+	return (
+		<Fragment>
+			{ReactDOM.createPortal(
+				<Backdrop onClick={props.onClick} />,
+				document.body
+			)}
+			{ReactDOM.createPortal(
+				<ModalOverlay onClick={props.onClick} {...props} />,
+				document.body
+			)}
+		</Fragment>
+	);
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In this application there is an `ErrorModal` component which will be rendered in the `AddUser` component. It's not a big problem if that happens however, it would be better if we can render these components outside of the main root in this application. Therefore we use `React Portal` which will render a component on the specified element.
