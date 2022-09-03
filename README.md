@@ -1,6 +1,6 @@
-# Users App
+# Users React App
 
-> Udemy React Complete Guide
+> Academind React Complete Guide
 
 ## Components
 
