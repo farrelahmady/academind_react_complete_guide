@@ -7,12 +7,12 @@ import style from "./Header.module.css";
 import mealImage from "../../../assets/meals.jpg";
 import HeaderCartButton from "./HeaderCartButton";
 
-function Header() {
+function Header(props) {
 	return (
 		<>
 			<header className={style.header}>
 				<h1>Food Order</h1>
-				<HeaderCartButton />
+				<HeaderCartButton onClick={props.onToggleCart} />
 			</header>
 			<div>
 				<img

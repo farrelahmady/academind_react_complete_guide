@@ -6,19 +6,29 @@ import Header from "./components/Layout/Header/Header";
 import Meals from "./components/Meals/Meals";
 
 function App() {
+	const [showCart, setShowCart] = React.useState(false);
+
+	const toggleCart = () => {
+		setShowCart(!showCart);
+	};
+
 	return (
 		<>
-			<Cart
-				cart={[
-					{
-						id: "m1",
-						name: "Sushi",
-						description: "Finest fish and veggies",
-						price: 22.99,
-					},
-				]}
-			/>
-			<Header />
+			{showCart && (
+				<Cart
+					cart={[
+						{
+							id: "m1",
+							name: "Sushi",
+							description: "Finest fish and veggies",
+							price: 22.99,
+						},
+					]}
+					onToggleCart={toggleCart}
+				/>
+			)}
+
+			<Header onToggleCart={toggleCart} />
 			<Meals />
 		</>
 	);

@@ -9,14 +9,16 @@ function Cart(props) {
 	));
 
 	return (
-		<Modal>
+		<Modal onClose={props.onToggleCart}>
 			<ul className={style["cart-items"]}>{cartItems}</ul>
 			<div className={style.total}>
 				<span>Total Amount: </span>
 				<span>$14.21</span>
 			</div>
 			<div className={style.actions}>
-				<button className={style["button--alt"]}>Close</button>
+				<button className={style["button--alt"]} onClick={props.onToggleCart}>
+					Close
+				</button>
 				<button className={style.button}>Order</button>
 			</div>
 		</Modal>
