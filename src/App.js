@@ -4,6 +4,7 @@ import Cart from "./components/Cart/Cart";
 //* Components
 import Header from "./components/Layout/Header/Header";
 import Meals from "./components/Meals/Meals";
+import { CartProvider } from "./store/cart-context";
 
 function App() {
 	const [showCart, setShowCart] = React.useState(false);
@@ -13,7 +14,7 @@ function App() {
 	};
 
 	return (
-		<>
+		<CartProvider>
 			{showCart && (
 				<Cart
 					cart={[
@@ -30,7 +31,7 @@ function App() {
 
 			<Header onToggleCart={toggleCart} />
 			<Meals />
-		</>
+		</CartProvider>
 	);
 }
 

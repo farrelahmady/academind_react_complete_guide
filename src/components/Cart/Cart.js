@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal";
 
 import style from "./Cart.module.css";
+import CartItem from "./CartItem";
 
 function Cart(props) {
-	const cartItems = props.cart.map((item) => (
-		<li key={item.id}>{item.name}</li>
+	const cartCtx = useContext(CartContext);
+	const cartItems = cartCtx.items.map((item) => (
+		<CartItem
+			key={item.id}
+			name={item.name}
+			price={item.price}
+			amount={item.amount}
+		/>
 	));
 
 	return (
@@ -13,13 +21,15 @@ function Cart(props) {
 			<ul className={style["cart-items"]}>{cartItems}</ul>
 			<div className={style.total}>
 				<span>Total Amount: </span>
-				<span>$14.21</span>
+				<span>{`$${cartCtx.totalAmount.toFixed(2)}`}</span>
 			</div>
 			<div className={style.actions}>
 				<button className={style["button--alt"]} onClick={props.onToggleCart}>
 					Close
 				</button>
-				<button className={style.button}>Order</button>
+				{cartCtx.items.length > 0 && (
+					<button className={style.button}>Order</button>
+				)}
 			</div>
 		</Modal>
 	);
