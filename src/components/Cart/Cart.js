@@ -13,6 +13,8 @@ function Cart(props) {
 			name={item.name}
 			price={item.price}
 			amount={item.amount}
+			onRemove={() => cartCtx.removeItem(item)}
+			onAdd={() => cartCtx.addItem(item)}
 		/>
 	));
 

@@ -13,7 +13,7 @@ const cartReducer = (state, action) => {
 			const item = state.items.find((item) => item.id === action.payload.id);
 
 			let newItems = [...state.items, action.payload];
-			if (state.items.length > 0) {
+			if (item) {
 				newItems = state.items.map((item) =>
 					item.id === action.payload.id
 						? { ...item, amount: item.amount + 1 }
@@ -24,13 +24,24 @@ const cartReducer = (state, action) => {
 			return {
 				...state,
 				items: newItems,
-				totalAmount:
-					state.totalAmount + action.payload.price * action.payload.amount,
+				totalAmount: state.totalAmount + action.payload.price,
 			};
 		case "REMOVE":
+			let items;
+			if (action.payload.amount === 1) {
+				items = state.items.filter((item) => item.id !== action.payload.id);
+			} else {
+				items = state.items.map((item) => {
+					if (item.id === action.payload.id) {
+						return { ...item, amount: item.amount - 1 };
+					}
+					return item;
+				});
+			}
+
 			return {
 				...state,
-				items: state.items.filter((item) => item.id !== action.payload),
+				items: items,
 				totalAmount: state.totalAmount - action.payload.price,
 			};
 		default:
@@ -51,7 +62,9 @@ export const CartProvider = (props) => {
 				addItem: (item) => {
 					dispatchCartAction({ type: "ADD", payload: item });
 				},
-				removeItem: (item) => {},
+				removeItem: (item) => {
+					dispatchCartAction({ type: "REMOVE", payload: item });
+				},
 			}}
 		>
 			{props.children}
